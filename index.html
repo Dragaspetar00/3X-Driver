@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dimension Drifter - Hyper Shift</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-white select-none bg-black">
+
+    <!-- Background & Canvas -->
+    <canvas id="gameCanvas"></canvas>
+    <div class="scanlines"></div>
+    <div id="glitch-overlay"></div>
+    <div id="warning-border"></div>
+
+    <!-- UI Overlay -->
+    <div class="absolute top-6 left-6 z-30 flex flex-col gap-3">
+        <div class="text-cyan-300 text-xs md:text-base ui-text tracking-widest">SKOR <span id="scoreEl" class="text-white ml-2">0</span></div>
+        <div class="text-pink-500 text-xs md:text-base ui-text tracking-widest">ZIRH <span id="livesEl" class="text-white ml-2">███</span></div>
+        <div class="text-yellow-400 text-[10px] md:text-xs ui-text mt-2 opacity-80">BOYUT: <span id="modeEl">ISOMETRIC</span></div>
+    </div>
+
+    <!-- Start / Game Over Screen -->
+    <div id="menuScreen" class="absolute inset-0 flex items-center justify-center z-40 bg-black/90 backdrop-blur-sm flex-col text-center p-4 overflow-hidden">
+        
+        <!-- Background Grid for Menu -->
+        <div class="absolute inset-0 -z-10 opacity-20" style="background-image: linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, .3) 25%, rgba(0, 255, 255, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .3) 75%, rgba(0, 255, 255, .3) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, .3) 25%, rgba(0, 255, 255, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .3) 75%, rgba(0, 255, 255, .3) 76%, transparent 77%, transparent); background-size: 50px 50px;"></div>
+
+        <div class="flex flex-col-reverse lg:flex-row items-center gap-12 z-10">
+            <div class="text-left">
+                <h1 class="text-5xl md:text-8xl font-black italic tracking-tighter mb-2 title-glow" style="font-family: 'Orbitron', sans-serif; -webkit-text-stroke: 2px rgba(255,255,255,0.1);">
+                    NEON<br>DRIFT
+                </h1>
+                <h2 class="text-cyan-400 text-sm md:text-lg tracking-[0.5em] mb-8 font-bold">HYPER SHIFT EDITION</h2>
+                
+                <div class="flex flex-col gap-4 text-gray-400 text-xs md:text-sm font-mono border-l-4 border-pink-500 pl-4 mb-8">
+                    <p><span class="text-white">[YÖN TUŞLARI]</span> Aracı Kontrol Et</p>
+                    <p><span class="text-red-400">!</span> Yoldan çıkarsan ZIRH hasar alır</p>
+                    <p><span class="text-yellow-400">★</span> 500 Puanda bir Boyut Atlaması</p>
+                </div>
+
+                <button id="startBtn" class="group relative px-10 py-4 bg-transparent overflow-hidden border border-cyan-500 text-cyan-400 font-bold text-xl tracking-widest hover:text-black hover:bg-cyan-400 transition-all duration-300 cursor-pointer">
+                    <span class="relative z-10">BAŞLAT</span>
+                    <div class="absolute inset-0 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                </button>
+            </div>
+
+            <!-- 3D Car Container -->
+            <div class="relative w-64 h-64 md:w-96 md:h-96">
+                <div class="absolute inset-0 border border-cyan-500/30 rounded-full animate-spin-slow" style="border-style: dashed;"></div>
+                <canvas id="menuCarCanvas" width="400" height="400" class="w-full h-full drop-shadow-[0_0_30px_rgba(0,240,255,0.3)]"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Controls -->
+    <div id="mobileControls" class="hidden absolute bottom-4 left-0 right-0 z-30 px-4 flex justify-between items-end h-40 pointer-events-none">
+        <div class="flex gap-2 pointer-events-auto">
+            <button id="btnLeft" class="w-20 h-20 bg-white/10 border border-white/30 rounded-full backdrop-blur active:bg-cyan-500/50 flex items-center justify-center text-3xl shadow-lg">←</button>
+            <button id="btnRight" class="w-20 h-20 bg-white/10 border border-white/30 rounded-full backdrop-blur active:bg-cyan-500/50 flex items-center justify-center text-3xl shadow-lg">→</button>
+        </div>
+        <!-- Only shown for Side View jump essentially, or vertical control -->
+        <div class="flex flex-col gap-2 pointer-events-auto">
+             <button id="btnUp" class="w-20 h-20 bg-white/10 border border-white/30 rounded-full backdrop-blur active:bg-pink-500/50 flex items-center justify-center text-3xl shadow-lg">↑</button>
+             <button id="btnDown" class="w-20 h-20 bg-white/10 border border-white/30 rounded-full backdrop-blur active:bg-pink-500/50 flex items-center justify-center text-3xl shadow-lg">↓</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
